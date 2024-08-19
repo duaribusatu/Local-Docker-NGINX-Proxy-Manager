@@ -1,0 +1,27 @@
+version: '3'
+services:
+  web:
+    image: nginx:latest
+    volumes:
+      - ./html:/usr/share/nginx/html
+    networks:
+      - nginx_network
+
+  app:
+    image: jc21/nginx-proxy-manager:latest
+    container_name: nginx-proxy-manager
+    ports:
+      - "80:80"
+      - "443:443
+      - "81:81"
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+    environment
+      DB_SQLITE_FILE: "/data/database.sqlite"
+    networks:
+      - nginx_network
+
+networks:
+  nginx_network
+    external: true
